@@ -1,41 +1,42 @@
+DROP DATABASE chat;
 CREATE DATABASE chat;
 
 USE chat;
 
   /* Describe your table here.*/
-DROP TABLE IF EXISTS `messages`;
-
-CREATE TABLE `messages` (
-  `m_id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL COMMENT 'Message ID',
-  `messages` VARCHAR(240) NULL DEFAULT NULL COMMENT 'Messages',
-  `room_id_rooms` INTEGER NULL DEFAULT NULL COMMENT 'Room Id',
-  `user_id_users` INTEGER NULL DEFAULT NULL COMMENT 'User Id',
-  PRIMARY KEY (`m_id`)
+DROP TABLE IF EXISTS `users`;
+		
+CREATE TABLE `users` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'User Id',
+  `user_name` VARCHAR(30) NULL DEFAULT NULL COMMENT 'User name',
+  PRIMARY KEY (`id`)
 );
 
 /* Create other tables and define schemas for them here! */
 DROP TABLE IF EXISTS `rooms`;
-
+		
 CREATE TABLE `rooms` (
-  `room_id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL COMMENT 'Room Id',
+  `id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Room Id',
   `room_name` VARCHAR(30) NULL DEFAULT NULL,
-  PRIMARY KEY (`room_id`)
+  PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `users`;
-
-CREATE TABLE `users` (
-  `user_id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL COMMENT 'User Id',
-  `user_name` VARCHAR(30) NULL DEFAULT NULL COMMENT 'User name',
-  PRIMARY KEY (`user_id`)
+DROP TABLE IF EXISTS `messages`;
+		
+CREATE TABLE `messages` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Message ID',
+  `messages` VARCHAR(240) NULL DEFAULT NULL COMMENT 'Messages',
+  `id_rooms` INTEGER NULL DEFAULT NULL COMMENT 'Room Id',
+  `id_users` INTEGER NULL DEFAULT NULL COMMENT 'User Id',
+  PRIMARY KEY (`id`)
 );
 
 -- ---
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `messages` ADD FOREIGN KEY (room_id_rooms) REFERENCES `rooms` (`room_id`);
-ALTER TABLE `messages` ADD FOREIGN KEY (user_id_users) REFERENCES `users` (`user_id`);
+ALTER TABLE `messages` ADD FOREIGN KEY (id_rooms) REFERENCES `rooms` (`id`);
+ALTER TABLE `messages` ADD FOREIGN KEY (id_users) REFERENCES `users` (`id`);
 
 -- ---
 -- Table Properties
@@ -49,15 +50,9 @@ ALTER TABLE `messages` ADD FOREIGN KEY (user_id_users) REFERENCES `users` (`user
 -- Test Data
 -- ---
 
--- INSERT INTO `messages` (`m_id`,`messages`,`room_id_rooms`,`user_id_users`) VALUES
+-- INSERT INTO `messages` (`id`,`messages`,`id_rooms`,`id_users`) VALUES
 -- ('','','','');
--- INSERT INTO `rooms` (`room_id`,`room_name`) VALUES
+-- INSERT INTO `rooms` (`id`,`room_name`) VALUES
 -- ('','');
--- INSERT INTO `users` (`user_id`,`user_name`) VALUES
+-- INSERT INTO `users` (`id`,`user_name`) VALUES
 -- ('','');
-
-
-/*  Execute this file from the command line by typing:
- *    mysql -u root < server/schema.sql
- *  to create the database and the tables.*/
-
